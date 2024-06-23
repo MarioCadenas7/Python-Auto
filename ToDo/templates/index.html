@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tareas</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Estilos personalizados -->
+    <style>
+        body {
+            padding: 20px;
+            background-color: #f8f9fa;
+            background-image: url('https://images.unsplash.com/photo-1464998857633-50e59fbf2fe7?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        .task-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .task-item.completed {
+            text-decoration: line-through;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+        .btn-primary {
+            background-color: #2196F3;
+            border-color: #2196F3;
+        }
+        .btn-primary:hover {
+            background-color: #0b7dda;
+            border-color: #0b7dda;
+        }
+        .btn-success {
+            background-color: #4CAF50;
+            border-color: #4CAF50;
+        }
+        .btn-success:hover {
+            background-color: #45a049;
+            border-color: #45a049;
+        }
+        .btn-danger {
+            background-color: #f44336;
+            border-color: #f44336;
+        }
+        .btn-danger:hover {
+            background-color: #d32f2f;
+            border-color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center mb-4">Lista de Tareas</h1>
+        <form id="addTaskForm">
+            <div class="input-group">
+                <input type="text" id="taskInput" class="form-control" placeholder="Ingrese la tarea...">
+                <button type="submit" class="btn btn-primary">Agregar Tarea</button>
+            </div>
+        </form>
+        <!-- Lista de tareas -->
+        <ul id="taskList">
+            <!-- Aquí se mostrarán las tareas -->
+        </ul>
+    </div>
+
+    <!-- Bootstrap JS y script personalizado -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <script>
+        const addTaskForm = document.getElementById('addTaskForm');
+        const taskList = document.getElementById('taskList');
+
+        addTaskForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const taskInput = document.getElementById('taskInput');
+            const description = taskInput.value.trim();
+            if (description) {
+                addTask(description);
+                taskInput.value = ''; // Limpiar el input después de agregar la tarea
+            }
+        });
+
+        function addTask(description) {
+            const taskId = Math.floor(Math.random() * 1000); // Generar un ID único para la tarea
+            const taskItem = `
+                <li id="task${taskId}" class="task-item d-flex justify-content-between align-items-center">
+                    <span>${description}</span>
+                    <div>
+                        <button onclick="completeTask(${taskId})" class="btn btn-success btn-sm me-2">Completar</button>
+                        <button onclick="deleteTask(${taskId})" class="btn btn-danger btn-sm">Eliminar</button>
+                    </div>
+                </li>
+            `;
+            taskList.insertAdjacentHTML('beforeend', taskItem); // Agregar la nueva tarea al final de la lista
+        }
+
+        function completeTask(taskId) {
+            const taskItem = document.getElementById(`task${taskId}`);
+            taskItem.classList.toggle('completed'); // Alternar la clase 'completed' para marcar la tarea como completada
+        }
+
+        function deleteTask(taskId) {
+            const taskItem = document.getElementById(`task${taskId}`);
+            taskItem.remove(); // Eliminar la tarea de la lista
+        }
+    </script>
+</body>
+</html>
+
